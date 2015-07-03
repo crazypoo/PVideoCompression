@@ -58,6 +58,7 @@
 {
     AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:sourceURL options:nil];
     NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
+    NSLog(@"%@",compatiblePresets);
     NSString *resultQuality = @"AVAssetExportPreset640x480";
     NSString *resultPath;
     if ([compatiblePresets containsObject:resultQuality])
@@ -72,23 +73,25 @@
         exportSession.outputFileType = AVFileTypeMPEG4;
         [exportSession exportAsynchronouslyWithCompletionHandler:^(void)
          {
+             NSString *message;
              switch (exportSession.status) {
                  case AVAssetExportSessionStatusUnknown:
-                     NSLog(@"AVAssetExportSessionStatusUnknown");
+                     message = @"AVAssetExportSessionStatusUnknown";
                      break;
                  case AVAssetExportSessionStatusWaiting:
-                     NSLog(@"AVAssetExportSessionStatusWaiting");
+                     message = @"AVAssetExportSessionStatusWaiting";
                      break;
                  case AVAssetExportSessionStatusExporting:
-                     NSLog(@"AVAssetExportSessionStatusExporting");
+                     message = @"AVAssetExportSessionStatusExporting";
                      break;
                  case AVAssetExportSessionStatusCompleted:
-                     NSLog(@"AVAssetExportSessionStatusCompleted");
+                     message = @"AVAssetExportSessionStatusCompleted";
                      break;
                  case AVAssetExportSessionStatusFailed:
-                     NSLog(@"AVAssetExportSessionStatusFailed");
+                     message = @"AVAssetExportSessionStatusFailed";
                      break;
              }
+             [[[UIAlertView alloc] initWithTitle:@"Opps!" message:message delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
          }];
     }
 }
