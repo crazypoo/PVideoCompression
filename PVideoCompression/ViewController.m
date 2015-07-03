@@ -33,7 +33,7 @@
     
 }
 
-- (IBAction)start:(id)sender
+-(IBAction)start:(id)sender
 {
     UIImagePickerController *ipc = [[UIImagePickerController alloc] init];
     ipc.sourceType = UIImagePickerControllerSourceTypeCamera;
@@ -44,7 +44,7 @@
     [self presentViewController:ipc animated:YES completion:nil];
 }
 
-- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
+-(void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     sourceURL = [info objectForKey:UIImagePickerControllerMediaURL];
     
@@ -54,7 +54,7 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)convert:(id)sender
+-(IBAction)convert:(id)sender
 {
     AVURLAsset *avAsset = [AVURLAsset URLAssetWithURL:sourceURL options:nil];
     NSArray *compatiblePresets = [AVAssetExportSession exportPresetsCompatibleWithAsset:avAsset];
@@ -93,21 +93,21 @@
     }
 }
 
-- (CGFloat) getFileSize:(NSString *)path
+-(CGFloat)getFileSize:(NSString *)path
 {
     NSFileManager *fileManager = [[NSFileManager alloc] init];
     float filesize = -1.0;
     if ([fileManager fileExistsAtPath:path]) {
-        NSDictionary *fileDic = [fileManager attributesOfItemAtPath:path error:nil];        unsigned long long size = [[fileDic objectForKey:NSFileSize] longLongValue];
+        NSDictionary *fileDic = [fileManager attributesOfItemAtPath:path error:nil];
+        unsigned long long size = [[fileDic objectForKey:NSFileSize] longLongValue];
         filesize = 1.0*size/1024;
     }
     return filesize;
 }
 
-- (CGFloat) getVideoLength:(NSURL *)URL
+-(CGFloat)getVideoLength:(NSURL *)URL
 {
-    NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO]
-                                                     forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
+    NSDictionary *opts = [NSDictionary dictionaryWithObject:[NSNumber numberWithBool:NO] forKey:AVURLAssetPreferPreciseDurationAndTimingKey];
     AVURLAsset *urlAsset = [AVURLAsset URLAssetWithURL:URL options:opts];
     float second = 0;
     second = urlAsset.duration.value/urlAsset.duration.timescale;
